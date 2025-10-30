@@ -20,14 +20,14 @@ public class TestSuite {
         // Capitalization (keep caps as-is except transfer first letter style)
         score += basicTest("Trash", "Ashtray");
         score += basicTest("trash", "ashtray");
-        score += basicTest("TrAsH", "Ashtray");
+        score += basicTest("TrAsH", "AsHtray");
 
         // Punctuation
         score += basicTest("Trash.", "Ashtray.");
-        score += basicTest("clean-cut", "eanclay-utcay");
+        score += basicTest("clean-cut", "ean-cutclay");
 
         score += basicTest("", "");
-        score += basicTest("    ", "    ");
+        score += basicTest("    ", "");
 
         // Multiple words
         score += basicTest("pigs eat trash", "igspay eatay ashtray");

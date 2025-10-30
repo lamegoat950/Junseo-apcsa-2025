@@ -1,91 +1,100 @@
 package piglatin;
 
-import java.util.Random;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class PigLatinTranslator {
 
-   
-
 public static Book translate(Book input) {
-Book translatedBook = new Book();
-for (int i = 0; i < input.getLineCount(); i++) {
-String line = input.getLine(i);
-translatedBook.appendLine(translate(line));
-}
-return translatedBook;
-}
 
+    Book translatedbook = new Book();
+
+    int Jen = input.getLineCount();
+    for(int J = 0; J < Jen; J++) {
+           String Line = input.getLine(J);
+           String translatedLine = translate(Line);
+           translatedbook.appendLine(translatedLine);
+       }
+       return translatedbook;
+}
 public static String translate(String input) {
-if (input == null || input.isEmpty()) return input;
 
-Pattern p = Pattern.compile("[A-Za-z]+(?:-[A-Za-z]+)*");
-Matcher m = p.matcher(input);
+    String result = "";
 
-StringBuilder out = new StringBuilder();
-int last = 0;
-
-while (m.find()) {
-out.append(input, last, m.start());
-
-String word = m.group();
-out.append(translateHyphenatedWord(word));
-
-last = m.end();
+    for(String word: input.split(" ")) {
+        result += " " + translateWord(word);
+    }
+    return result.trim();
 }
 
-out.append(input.substring(last));
-return out.toString();
+private static String translateWord(String input) {
+
+    String result = "";
+    if (input == null || input.trim().length() == 0){
+           return "";
+       }
+       int vowelIndex = 0;
+       int puncIndex = 0;
+       boolean hasPunctuation = false;
+       String firstLetter = input.substring(0, 1);
+
+
+       if (isVowel(firstLetter)){
+           result = input + "ay";
+       }
+
+       for (int J = 0; J < input.length(); J++) {
+        if (isVowel(input.substring(J, J+1))) {
+            vowelIndex = J;
+            break;
+        }
+       }
+        String start = input.substring(0,vowelIndex);
+        String rest = input.substring(vowelIndex);
+        result = rest + start.toLowerCase() + "ay";
+
+         if (result.indexOf(".") != -1){
+           hasPunctuation = true;
+           puncIndex = result.indexOf(".");
+       } else if (result.indexOf("!") != -1){
+           hasPunctuation = true;
+           puncIndex = result.indexOf("!");
+       } else if (result.indexOf("?") != -1){
+           hasPunctuation = true;
+           puncIndex = result.indexOf("?");
+       }  else if (result.indexOf(",") != -1){
+           hasPunctuation = true;
+           puncIndex = result.indexOf(",");
+       } else if (result.indexOf(";") != -1){
+           hasPunctuation = true;
+           puncIndex = result.indexOf(";");
+       } else if (result.indexOf(":") != -1){
+           hasPunctuation = true;
+           puncIndex = result.indexOf(":");
+       }
+  if (hasPunctuation){
+           result = result.substring(0, puncIndex) + result.substring(puncIndex + 1) + result.charAt(puncIndex);
+       }
+
+
+       if (Character.isUpperCase(input.charAt(0))){
+           result = result.substring(0, 1).toUpperCase() + result.substring(1);
+       }
+       return result;
+   }
+
+
+   public static boolean isVowel(String letter){
+       String Vowels = "aeiouAEIOU";
+       if (Vowels.indexOf(letter) != -1) {
+           return true;
+       }
+       return false;
+   }
+
+
+   public static boolean isPunc(String letter){
+       String Specialletters = ".!?";
+       if (Specialletters.indexOf(letter) != -1){
+           return true;
+       }
+       return false;
+   }
 }
-
-private static String translateHyphenatedWord(String word) {
-if (!word.contains("-")) return translateWord(word);
-
-String[] parts = word.split("-");
-StringBuilder sb = new StringBuilder();
-for (int i = 0; i < parts.length; i++) {
-sb.append(translateWord(parts[i]));
-if (i < parts.length - 1) sb.append("-");
-}
-return sb.toString();
-}
-
-private static String translateWord(String word) {
-if (word == null || word.isEmpty()) return word;
-
-boolean isCapitalized = Character.isUpperCase(word.charAt(0));
-String lower = word.toLowerCase();
-
-
-int firstVowel = findFirstVowel(lower);
-String translated;
-
-
-
-if (firstVowel == 0) {
-translated = lower + "ay";
-} else if (firstVowel > 0) {
-translated = lower.substring(firstVowel) + lower.substring(0, firstVowel) + "ay";
-} else {
-translated = lower + "ay";
-}
-
-if (isCapitalized && translated.length() > 0) {
-translated = Character.toUpperCase(translated.charAt(0)) + translated.substring(1);
-}
-
-return translated;
-}
-
-private static int findFirstVowel(String s) {
-String vowels = "aeiou";
-for (int i = 0; i < s.length(); i++) {
-if (vowels.indexOf(s.charAt(i)) >= 0) return i;
-}
-return -1;
-}
-}
-
-
