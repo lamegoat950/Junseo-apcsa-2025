@@ -143,7 +143,7 @@ public class Game {
         for (int i=0; i<hand.length(); i++)
         {
             Card card = hand.get(i);
-            int value = card.getValue() + 1;
+            int value = card.getCard() + 1;
             if (value > 10)
             {
                 value = 10;

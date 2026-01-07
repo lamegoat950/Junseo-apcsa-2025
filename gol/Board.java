@@ -16,4 +16,8 @@ interface Board {
 
     // Get the internal storage array (for testing)
     public int[][] get();
+
+    void set(int x, int y, int[][] data);
+
+    void print();
 }
