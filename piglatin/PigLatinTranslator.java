@@ -2,53 +2,53 @@ package piglatin;
 
 public class PigLatinTranslator {
 
-public static Book translate(Book input) {
+public static Book translate(Book Input) {
 
     Book translatedbook = new Book();
 
-    int Jen = input.getLineCount();
+    int Jen = Input.getLineCount();
     for(int J = 0; J < Jen; J++) {
-           String Line = input.getLine(J);
+           String Line = Input.getLine(J);
            String translatedLine = translate(Line);
            translatedbook.appendLine(translatedLine);
        }
        return translatedbook;
 }
-public static String translate(String input) {
+public static String translate(String Input) {
 
     String result = "";
 
-    for(String word: input.split(" ")) {
+    for(String word: Input.split(" ")) {
         result += " " + translateWord(word);
     }
     return result.trim();
 }
 
-private static String translateWord(String input) {
+private static String translateWord(String Input) {
 
     String result = "";
-    if (input == null || input.trim().length() == 0){
+    if (Input == null || Input.trim().length() == 0){
            return "";
        }
-       int vowelIndex = 0;
+       int VowelIndex = 0;
        int puncIndex = 0;
        boolean hasPunctuation = false;
-       String firstLetter = input.substring(0, 1);
+       String firstLetter = Input.substring(0, 1);
 
 
        if (isVowel(firstLetter)){
-           result = input + "ay";
+           result = Input + "ay";
        }
 
-       for (int J = 0; J < input.length(); J++) {
-        if (isVowel(input.substring(J, J+1))) {
-            vowelIndex = J;
+       for (int J = 0; J < Input.length(); J++) {
+        if (isVowel(Input.substring(J, J+1))) {
+            VowelIndex = J;
             break;
         }
        }
-        String start = input.substring(0,vowelIndex);
-        String rest = input.substring(vowelIndex);
-        result = rest + start.toLowerCase() + "ay";
+        String Begin = Input.substring(0,VowelIndex);
+        String leftover = Input.substring(VowelIndex);
+        result = leftover + Begin.toLowerCase() + "ay";
 
          if (result.indexOf(".") != -1){
            hasPunctuation = true;
@@ -74,27 +74,29 @@ private static String translateWord(String input) {
        }
 
 
-       if (Character.isUpperCase(input.charAt(0))){
+       if (Character.isUpperCase(Input.charAt(0))){
            result = result.substring(0, 1).toUpperCase() + result.substring(1);
        }
        return result;
    }
 
 
-   public static boolean isVowel(String letter){
+   public static boolean isVowel(String Letter){
        String Vowels = "aeiouAEIOU";
-       if (Vowels.indexOf(letter) != -1) {
-           return true;
+       if (Vowels.indexOf(Letter) == -1) {
+           return false;
        }
-       return false;
+       else
+       return true;
    }
 
 
-   public static boolean isPunc(String letter){
-       String Specialletters = ".!?";
-       if (Specialletters.indexOf(letter) != -1){
-           return true;
+   public static boolean isPunc(String Letter){
+       String Special = ".!?";
+       if (Special.indexOf(Letter) == -1) {
+           return false;
        }
-       return false;
+       else
+       return true;
    }
 }
