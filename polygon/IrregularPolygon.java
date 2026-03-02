@@ -18,7 +18,17 @@ public class IrregularPolygon {
 
     public double perimeter() {
         // TODO: Calculate the perimeter.
-        return 3.14;
+        double perimeter = 0.0;
+        int n = myPolygon.size();
+
+        if(n>1) {
+            for(int i = 0; i < n; i++) {
+                Point2D.Double p1 = myPolygon.get(i); 
+                Point2D.Double p2 = myPolygon.get((i + 1) % n);
+                             perimeter += p1.distance(p2);
+            }
+        }
+        return perimeter;
     }
 
     public double area() {
