@@ -45,15 +45,30 @@ public class IrregularPolygon {
         }
         return area;
     }
-
-    public void draw()
+ public void draw()
     {
         // Wrap the DrawingTool in a try/catch to allow development without need for graphics.
         try {
             // TODO: Draw the polygon.
-            // Documents: https://pavao.org/compsci/gpdraw/html/gpdraw/DrawingTool.html
-            //DrawingTool myDrawingTool = new DrawingTool(new SketchPad(500, 500));
-            //myDrawingTool.move(50, 50);
+            // source: https://pavao.org/compsci/gpdraw/html/gpdraw/DrawingTool.html
+            int i = myPolygon.size();
+            DrawingTool myDrawingTool = new DrawingTool(new SketchPad(500, 500));
+
+
+            myDrawingTool.up();
+            myDrawingTool.move(myDrawingTool.getXPos() - 100, myDrawingTool.getYPos());
+            myDrawingTool.down();
+            for(int n = 0; n < i; n++) {
+                Point2D.Double p = myPolygon.get(i);
+
+
+                myDrawingTool.move(myDrawingTool.getXPos() + p.getX(), myDrawingTool.getXPos() + p.getY());
+                    
+            }
+            myDrawingTool.up();
+            myDrawingTool.move(myDrawingTool.getXPos() + 50, myDrawingTool.getYPos());
+            myDrawingTool.down();
+
         } catch (java.awt.HeadlessException e) {
             System.out.println("Exception: No graphics support available.");
         }
